@@ -1,91 +1,73 @@
-# 九格（NineGrid）
+# 九格 NineGrid · core
 
-> 只属于你一个人的九宫格中文输入法：不联网、不画像、不打扰。
+九格是一款面向中国用户的九宫格输入法。本仓库**只开放 C++17 输入核心**；`docs/`、`platforms/`、`site/` 属于本地材料，不在 GitHub 发布。
 
-仓库：<https://github.com/a649880776/nineGrid>
+核心不依赖 Android / HarmonyOS / iOS，可单独构建、测试，后续通过 NAPI / JNI / C ABI 接入各平台宿主。
 
-九格是一款面向中国用户、专注九宫格（T9）的输入法。它放弃云端大数据与群体画像，只在本机记录并学习**你自己的**输入习惯；不申请网络权限，词库更新由你手动选择是否导入。
+## 当前实现
 
-**首发平台：HarmonyOS NEXT（鸿蒙 5.x / 6.x）**，体验稳定后再做 Android 与 iOS。三端共用一套 C++ 输入核心，UI 各自原生。
+- 数字串 → 拼音音节路径（Viterbi + 音节权重 + 整词奖励）
+- 音节 → 词图切分（词典 DP）
+- 候选排序：基础词频 + 个人词频 + 上下文 + 最近使用
+- 分词路径切换（`9426`：`xian` ⇄ `xi'an`）
+- 本地用户模型：词频、bigram、时间衰减、保存/加载/清除
+- C API：[core/include/ninegrid/engine.h](core/include/ninegrid/engine.h)
+- 命令行 demo + 单元测试
 
-## 当前状态
+## 构建
 
-- 阶段：需求调研完成，鸿蒙技术方案已定，准备进入 H0（环境与真机可行性验证）
-- 核心：`core/` v0.1 已可编译/测试（T9 解码、候选、个人学习、CLI）
-- 鸿蒙宿主：DevEco Studio 6.1.1 已安装（内置 SDK API 24）；等待登录 + 真机连接
-- 官网：`site/` 已可本地预览与部署
-- 仓库：已推送到 <https://github.com/a649880776/nineGrid>（`main`）
-- 环境：DevEco Studio 未安装；下载需华为账号登录，步骤见 [INSTALL.md](platforms/harmony/INSTALL.md)
-- 核心语言：**C++17**（已确认）
-- 许可证：Apache-2.0
-
-![九格官网](docs/images/site-desktop.png)
-
-> 官网截图（桌面端）；移动端见 [docs/images/site-mobile.png](docs/images/site-mobile.png)。
-
-## 为什么是鸿蒙优先
-
-我只有鸿蒙设备。HarmonyOS NEXT 不兼容 Android APK，也不支持 Kotlin/Android API，所以第一步必须是 ArkTS/ArkUI 原生输入法。体验验证通过后，再分别做 Android（Kotlin + JNI）与 iOS（Swift + C ABI），复用同一套 C++ 核心。
-
-## 设计原则
-
-1. **个人模型优先**：排序以你的历史为主，基础词频只做冷启动。
-2. **默认零联网**：不申请网络权限；无统计 SDK、无账号、无云同步。
-3. **隐私可验证**：密码框不学习、剪贴板不偷读；数据可见、可导出、可删除。
-4. **九键原生**：围绕重码消歧设计交互，而不是把 26 键缩小。
-5. **开源可复现**：代码、词库、构建脚本全开放，无二进制黑盒。
-6. **克制**：无广告、无资讯、无皮肤商店；小、快、稳。
-
-## 快速开始（核心）
+macOS / Linux（Makefile）：
 
 ```bash
 cd core
 make -j4
 make test
+```
+
+有 CMake 的环境：
+
+```bash
+cd core
+cmake -S . -B build-cmake -DCMAKE_BUILD_TYPE=Release
+cmake --build build-cmake
+ctest --test-dir build-cmake --output-on-failure
+```
+
+## 试打
+
+```bash
+cd core
 ./build/ninegrid_cli --dict data/sample_dict.tsv --user /tmp/ninegrid_user.tsv
 ```
 
-详见 [core/README.md](core/README.md)。
-
-## 仓库结构
-
 ```
-core/              C++17 共享输入引擎（T9 / 词库 / 排序 / 学习）
-platforms/
-  harmony/         ArkTS + ArkUI 宿主（首发）
-  android/         Kotlin + JNI（后续）
-  ios/             Swift + C ABI（后续）
-tools/lexicon/     词库编译与校验
-site/              官网（静态，可部署 GitHub Pages）
-docs/              需求、技术方案、合规与词库调研
+64426        # 追加数字
+s1           # 选第 1 个候选
+c            # 切换分词
+b            # 删除一个数字
+r            # 重置
+q            # 退出
 ```
 
-## 文档
+`make test` 覆盖：音节编码、`64426 → 你好`、`9426` 双路径、学习后排序、持久化、错误输入。
 
-| 文档 | 内容 |
-|---|---|
-| [鸿蒙优先技术方案](docs/鸿蒙优先技术方案.md) | 架构、IME Kit 要点、C API、环境、分期、分发与风险 |
-| [需求调研报告](docs/需求调研报告.md) | 定位、竞品、用户、功能需求、算法、里程碑 |
-| [竞品与痛点调研](docs/竞品与痛点调研.md) | 商业/开源输入法矩阵、用户画像、痛点 |
-| [平台与合规调研](docs/平台与合规调研.md) | Android/iOS 约束、中国区合规 |
-| [词库与许可证调研](docs/词库与许可证调研.md) | 词库来源、许可义务、推荐组合 |
+## 目录
 
-## 官网
-
-```bash
-cd site
-python3 -m http.server 4173
-# 打开 http://localhost:4173
+```
+core/
+├─ include/ninegrid/engine.h   C API
+├─ src/                        T9 / 词库 / 词图 / 排序 / 学习
+├─ cli/                        命令行 demo
+├─ tests/                      单元测试
+├─ data/sample_dict.tsv        95 词样例词库
+├─ CMakeLists.txt
+└─ Makefile
 ```
 
-静态站无构建步骤、无外部依赖；部署到 GitHub Pages 时把 `site/` 作为发布目录即可。仓库地址集中在 `site/main.js` 的 `REPO_URL` 常量，替换后全站生效。
+## 状态与下一步
 
-## 开发环境（鸿蒙）
-
-需要：macOS + DevEco Studio（含 HarmonyOS SDK API 12+）+ 华为开发者账号 + HarmonyOS NEXT 真机。
-
-当前开发机尚未安装 DevEco Studio，因此鸿蒙工程尚未生成。安装与验证步骤见 [鸿蒙优先技术方案 §7](docs/鸿蒙优先技术方案.md)。
+当前是 v0.1 原型，样例词库仅 95 词；下一步是替换为可再分发的 38–42 万条词库、编译 `.nglex`，并在鸿蒙工程中通过 NAPI 接入。
 
 ## 许可证
 
-代码采用 [Apache-2.0](LICENSE)。词库保留各来源许可，见 `NOTICE`（待词库落地后生成）。在词库与 NOTICE 完成前，仓库内容不作为可再分发的完整发行版。
+Apache-2.0，见 [LICENSE](LICENSE)。

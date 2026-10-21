@@ -72,3 +72,9 @@ __pycache__/
 
 # Local input data
 core/ninegrid_user.tsv
+
+# Local-only project material (not published to GitHub)
+/docs/
+/platforms/
+/site/
+/.github/
