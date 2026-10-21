@@ -11,7 +11,8 @@
 ## 当前状态
 
 - 阶段：需求调研完成，鸿蒙技术方案已定，准备进入 H0（环境与真机可行性验证）
-- 代码：尚未开始（等待 DevEco Studio + 真机签名环境）
+- 核心：`core/` v0.1 已可编译/测试（T9 解码、候选、个人学习、CLI）
+- 鸿蒙宿主：等待 DevEco Studio + 真机签名环境
 - 官网：`site/` 已可本地预览与部署
 - 仓库：已推送到 <https://github.com/a649880776/nineGrid>（`main`）
 - 环境：DevEco Studio 未安装；下载需华为账号登录，步骤见 [INSTALL.md](platforms/harmony/INSTALL.md)
@@ -34,6 +35,17 @@
 4. **九键原生**：围绕重码消歧设计交互，而不是把 26 键缩小。
 5. **开源可复现**：代码、词库、构建脚本全开放，无二进制黑盒。
 6. **克制**：无广告、无资讯、无皮肤商店；小、快、稳。
+
+## 快速开始（核心）
+
+```bash
+cd core
+make -j4
+make test
+./build/ninegrid_cli --dict data/sample_dict.tsv --user /tmp/ninegrid_user.tsv
+```
+
+详见 [core/README.md](core/README.md)。
 
 ## 仓库结构
 
