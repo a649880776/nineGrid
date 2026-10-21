@@ -13,6 +13,10 @@
 - 官网：`site/` 已可本地预览与部署
 - 许可证：Apache-2.0
 
+![九格官网](docs/images/site-desktop.png)
+
+> 官网截图（桌面端）；移动端见 [docs/images/site-mobile.png](docs/images/site-mobile.png)。
+
 ## 为什么是鸿蒙优先
 
 我只有鸿蒙设备。HarmonyOS NEXT 不兼容 Android APK，也不支持 Kotlin/Android API，所以第一步必须是 ArkTS/ArkUI 原生输入法。体验验证通过后，再分别做 Android（Kotlin + JNI）与 iOS（Swift + C ABI），复用同一套 C++ 核心。
