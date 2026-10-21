@@ -13,6 +13,9 @@
 - 阶段：需求调研完成，鸿蒙技术方案已定，准备进入 H0（环境与真机可行性验证）
 - 代码：尚未开始（等待 DevEco Studio + 真机签名环境）
 - 官网：`site/` 已可本地预览与部署
+- 仓库：已推送到 <https://github.com/a649880776/nineGrid>（`main`）
+- 环境：DevEco Studio 未安装；下载需华为账号登录，步骤见 [INSTALL.md](platforms/harmony/INSTALL.md)
+- 核心语言：**C++17**（已确认）
 - 许可证：Apache-2.0
 
 ![九格官网](docs/images/site-desktop.png)
