@@ -12,7 +12,7 @@
 
 - 阶段：需求调研完成，鸿蒙技术方案已定，准备进入 H0（环境与真机可行性验证）
 - 核心：`core/` v0.1 已可编译/测试（T9 解码、候选、个人学习、CLI）
-- 鸿蒙宿主：等待 DevEco Studio + 真机签名环境
+- 鸿蒙宿主：DevEco Studio 6.1.1 已安装（内置 SDK API 24）；等待登录 + 真机连接
 - 官网：`site/` 已可本地预览与部署
 - 仓库：已推送到 <https://github.com/a649880776/nineGrid>（`main`）
 - 环境：DevEco Studio 未安装；下载需华为账号登录，步骤见 [INSTALL.md](platforms/harmony/INSTALL.md)
