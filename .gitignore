@@ -9,6 +9,19 @@
 *.iml
 .fleet/
 
+# Toolchains / installers — never commit
+*.dmg
+*.pkg
+*.zip
+*.tar.gz
+**/DevEco-Studio.app/
+**/sdk/
+**/jbr/
+**/tools/hvigor/
+**/tools/ohpm/
+**/tools/node/
+**/.deveco/
+
 # HarmonyOS / DevEco
 **/oh_modules/
 **/.hvigor/
