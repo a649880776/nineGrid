@@ -1,0 +1,13 @@
+NineGrid (九格)
+Copyright 2026 NineGrid contributors
+
+This product includes software developed by the NineGrid contributors
+and is licensed under the Apache License, Version 2.0.
+
+Third-party components and data
+--------------------------------
+No third-party dictionaries are bundled yet. When the base lexicon is
+added, every upstream source (name, URL, commit, license) will be listed
+here and in docs/licenses/.
+
+The website uses no third-party fonts, analytics, or CDN assets.

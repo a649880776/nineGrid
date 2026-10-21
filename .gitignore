@@ -1,0 +1,58 @@
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# IDE
+.idea/
+.vscode/
+*.iml
+.fleet/
+
+# HarmonyOS / DevEco
+**/oh_modules/
+**/.hvigor/
+**/build/
+**/.preview/
+**/local.properties
+*.hap
+*.hsp
+*.app
+
+# Android
+.gradle/
+**/local.properties
+*.apk
+*.aab
+*.jks
+*.keystore
+
+# iOS
+DerivedData/
+*.xcuserstate
+*.xcworkspace/xcuserdata/
+Pods/
+*.ipa
+
+# Node
+node_modules/
+dist/
+.pnpm-store/
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+*.egg-info/
+
+# Secrets / signing
+*.p12
+*.cer
+*.p7b
+*.mobileprovision
+.env
+.env.*
+
+# Logs / temp
+*.log
+.DS_Store?
